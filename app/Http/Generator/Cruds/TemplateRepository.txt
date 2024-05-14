@@ -1,0 +1,21 @@
+<?php
+
+namespace App\Repositories\Eloquent\<name>;
+
+use App\Repositories\Contracts\I<name>Repository;
+use App\Models\CMS\<name>;
+use App\Repositories\Repository;
+
+class <name>Repository extends Repository
+{
+    public function __construct()
+    {
+        $this->model = new <name>();
+    }
+
+    protected function structureUpInsert($request): array
+    {
+        $fields = array_keys($request);
+        return $this->filter_request($request, $fields);
+    }
+}

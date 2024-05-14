@@ -1,0 +1,185 @@
+// Importando a fonte Poppins
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+
+// Variáveis
+@primary-color: #003378;
+@accent-color: #007BFF;
+@background-color: #f0ededf5;
+@light-gray: #ddd;
+@dark-gray: #999;
+@white: #fff;
+
+/* Estilos Gerais */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: @background-color;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1em;
+    font-weight: 300;
+    line-height: 1.7em;
+    color: @dark-gray;
+}
+
+a,
+a:hover,
+a:focus {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+/* Estilos da Navbar */
+.navbar {
+    padding: 15px 10px;
+    background: @white;
+    border: none;
+    border-radius: 0;
+    margin-bottom: 40px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-btn {
+    box-shadow: none;
+    outline: none !important;
+    border: none;
+}
+
+/* Estilos da Linha */
+.line {
+    width: 100%;
+    height: 1px;
+    border-bottom: 1px dashed @light-gray;
+    margin: 40px 0;
+}
+
+/* Sidebar Style */
+.wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+}
+
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    background: @primary-color;
+    color: @white;
+    transition: all 0.3s;
+
+    &.active {
+        margin-left: -250px;
+    }
+
+    .sidebar-header {
+        padding: 20px;
+        background: darken(@primary-color, 10%);
+    }
+
+    ul.components {
+        padding: 20px 0;
+    }
+
+    ul p {
+        color: @white;
+        padding: 10px;
+    }
+
+    ul li a {
+        padding: 10px;
+        font-size: 1.1em;
+        display: block;
+
+        &:hover {
+            color: @primary-color;
+            background: @white;
+        }
+
+        &.active>a,
+        a[aria-expanded="true"] {
+            color: @white;
+            background: darken(@primary-color, 10%);
+        }
+    }
+
+    a[data-bs-toggle="collapse"] {
+        position: relative;
+
+        &::after {
+            display: block;
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+        }
+    }
+
+    ul ul a {
+        font-size: 0.9em !important;
+        padding-left: 30px !important;
+        background: darken(@primary-color, 10%);
+    }
+
+    ul.CTAs {
+        padding: 20px;
+
+        a {
+            text-align: center;
+            font-size: 0.9em !important;
+            display: block;
+            border-radius: 5px;
+            margin-bottom: 5px;
+
+            &.download {
+                background: @white;
+                color: @primary-color;
+            }
+
+            &.article,
+            &:hover.article {
+                background: darken(@primary-color, 10%) !important;
+                color: @white  !important;
+            }
+        }
+    }
+}
+
+/* Content Style */
+#content {
+    width: 100%;
+    padding: 20px;
+    min-height: 100vh;
+    transition: all 0.3s;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -250px;
+
+        &.active {
+            margin-left: 0;
+        }
+
+        #sidebarCollapse span {
+            display: none;
+        }
+    }
+}
+
+/* Estilos CSS Adicionais */
+.emphasis {
+    font-weight: bold;
+    color: @accent-color;
+}
+
+.chart {
+    height: 250px;
+    background-color: @light-gray;
+    border-radius: 5px;
+    object-fit: cover;
+}

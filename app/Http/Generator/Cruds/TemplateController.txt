@@ -1,0 +1,73 @@
+<?php
+
+namespace App\Http\Controllers\CMS;
+
+use Exception;
+use Illuminate\Http\Request;
+use App\Models\CMS\<name>;
+use App\Http\Controllers\Controller;
+use App\Repositories\Contracts\I<name>Repository;
+use App\Repositories\Eloquent\<name>\<name>Repository;
+use App\Http\Requests\<name>Request;
+
+class <name>Controller extends Controller
+{
+    public $title, $repository, $table;
+
+    public function __construct(<name>Repository $repository)
+    {
+        $this->title = '<name-title>';
+        $this->repository = $repository;
+        $this->table = new <name>();
+    }
+
+    public function index()
+    {
+        return view('cms.<name_min>.index', ['title' => $this->title]);
+    }
+
+    public function indexAPI()
+    {
+        return response()->json(['content' => $this->table->get(['id', <dados>]), 'tableName' => $this->table->getTable()], 200);
+    }
+
+    public function create()
+    {
+        return view('cms.<name_min>.create', ['title' => $this->title]);
+    }
+
+    public function store(<name>Request $request)
+    {
+        try {
+            $resultado = $this->repository->upInsert($request);
+            if ($resultado) {
+                return redirect()
+                    ->route('<name_min>.index', [$resultado])
+                    ->with('success', 'Registro cadastro com sucesso');
+            }
+        } catch (Exception $exception) {
+        }
+        return redirect()->back();
+    }
+
+    public function edit($id)
+    {
+        return view('cms.<name_min>.create', [
+            'title' => $this->title,
+            'data' => $this->table->where('id', $id)->first()
+        ]);
+    }
+
+    public function update(<name>Request $request, $id)
+    {
+        try {
+            if ($this->repository->upInsert($request, $id)) {
+                return redirect()
+                    ->route('<name_min>.index', [$id])
+                    ->with('success', 'Registro cadastro com sucesso');
+            }
+        } catch (Exception $exception) {
+        }
+        return redirect()->back();
+    }
+}
