@@ -7,12 +7,6 @@ use App\Http\Controllers\Controller;
 
 class PortalController extends Controller
 {
-    public $table;
-
-    public function __construct()
-    {
-        $this->table = new Galeria();
-    }
 
     public function index()
     {

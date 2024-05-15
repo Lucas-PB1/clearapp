@@ -35,7 +35,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // Portal
-Route::get('/', [PortalController::class, 'index']);
+Route::get('/', [PortalController::class, 'index'])->name('home.index');
 
 // CMS
 Route::middleware('auth')->prefix('cms')->group(function () {

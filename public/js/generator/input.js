@@ -1,6 +1,15 @@
 let id = 0;
 let open_modal = 0;
 
+function generateElement(type, tag){
+    let info = 
+
+    return create_element({
+        tag: 'input', classes: 'generator-inputs form-control',
+        params: [{ key: 'name', value: `generator[${id}][title]` }, { key: 'placeholder', value: 'Coluna ' }]
+    });
+}
+
 document.querySelector('#generator-button').addEventListener('click', (event) => {
     event.preventDefault();
     let area = document.querySelector('#generator-input');
