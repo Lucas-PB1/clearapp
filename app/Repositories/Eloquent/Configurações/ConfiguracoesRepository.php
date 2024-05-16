@@ -2,15 +2,15 @@
 
 namespace App\Repositories\Eloquent\Configurações;
 
-use App\Repositories\Contracts\IConfiguraçõesRepository;
-use App\Models\CMS\Configurações;
+use App\Repositories\Contracts\IConfigurationRepository;
+use App\Models\CMS\Configuracoes;
 use App\Repositories\Repository;
 
-class ConfiguraçõesRepository extends Repository
+class ConfiguracoesRepository extends Repository
 {
     public function __construct()
     {
-        $this->model = new Configurações();
+        $this->model = new Configuracoes();
     }
 
     protected function structureUpInsert($request): array

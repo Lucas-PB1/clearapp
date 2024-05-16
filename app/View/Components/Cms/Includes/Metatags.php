@@ -4,7 +4,7 @@ namespace App\View\Components\Cms\Includes;
 
 use Closure;
 use Illuminate\View\Component;
-use App\Models\CMS\Configurações;
+use App\Models\CMS\Configuracoes;
 use Illuminate\Contracts\View\View;
 
 class Metatags extends Component
@@ -15,8 +15,8 @@ class Metatags extends Component
      */
     public function __construct()
     {
-        $this->siteName = Configurações::where('slug', 'nome-do-site')->first()->valor;
-        $this->logo = Configurações::where('slug', 'logo')->first()->destaque->path;
+        $this->siteName = Configuracoes::where('slug', 'nome-do-site')->first()->valor;
+        $this->logo = Configuracoes::where('slug', 'logo')->first()->destaque->path;
     }
 
     /**

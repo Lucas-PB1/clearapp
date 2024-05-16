@@ -4,7 +4,7 @@ namespace App\View\Components\Cms\Menu;
 
 use Closure;
 use Illuminate\View\Component;
-use App\Models\CMS\Configurações;
+use App\Models\CMS\Configuracoes;
 use Illuminate\Contracts\View\View;
 
 class SidebarMenu extends Component
@@ -16,7 +16,7 @@ class SidebarMenu extends Component
      */
     public function __construct()
     {
-        $this->siteName = Configurações::where('slug', 'nome-do-site')->first()->valor;
+        $this->siteName = Configuracoes::where('slug', 'nome-do-site')->first()->valor;
 
         $this->menus = [
             ['nome' => 'Usuários', 'link' => route('usuarios.index')],

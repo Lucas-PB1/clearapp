@@ -2,6 +2,6 @@
 
 namespace App\Repositories\Contracts;
 
-interface IRedesSociaisRepositoryRepository
+interface IRedesSociaisRepository
 {
 }

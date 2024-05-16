@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\CMS\Archives;
 use Illuminate\Database\Seeder;
-use App\Models\CMS\Configurações;
+use App\Models\CMS\Configuracoes;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class ConfigurationSeed extends Seeder
@@ -12,7 +12,7 @@ class ConfigurationSeed extends Seeder
     /**
      * Run the database seeds.
      */
-    public function run(Configurações $config, Archives $archives): void
+    public function run(Configuracoes $config, Archives $archives): void
     {
 
         $configs = [

@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use App\Http\Traits\AppTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ConfiguraçõesRequest extends FormRequest
+class ConfiguracoesRequest extends FormRequest
 {
     use AppTrait;
 

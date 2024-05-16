@@ -11,8 +11,7 @@ use App\Http\Controllers\CMS\UserController;
 use App\Http\Controllers\CMS\RolesController;
 use App\Http\Controllers\CMS\DashboardController;
 use App\Http\Controllers\CMS\RedesSociaisController;
-use App\Http\Controllers\CMS\ConfiguraçõesController;
-
+use App\Http\Controllers\CMS\ConfigurationsController;
 use App\Http\Controllers\Portal\PortalController;
 
 /*
@@ -69,8 +68,8 @@ Route::middleware('auth')->prefix('cms')->group(function () {
     });
 
     // Config
-    Route::get('/configuracoes', [ConfiguraçõesController::class, 'index'])->name('config.index');
-    Route::put('/configuracoes/update', [ConfiguraçõesController::class, 'update'])->name('config.update');
+    Route::get('/configuracoes', [ConfigurationsController::class, 'index'])->name('config.index');
+    Route::put('/configuracoes/update', [ConfigurationsController::class, 'update'])->name('config.update');
 
     // Utils
     Route::delete('delete/{tabela}/{id}', [DeleteController::class, 'delete'])->name('delete');

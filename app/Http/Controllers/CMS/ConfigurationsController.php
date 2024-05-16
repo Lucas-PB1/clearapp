@@ -3,26 +3,24 @@
 namespace App\Http\Controllers\CMS;
 
 use Exception;
-use Illuminate\Http\Request;
 use App\Http\Traits\LogTrait;
 use App\Http\Traits\FileTrait;
-use App\Models\CMS\Configurações;
+use App\Models\CMS\Configuracoes;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ConfiguraçõesRequest;
-use App\Repositories\Contracts\IConfiguraçõesRepository;
-use App\Repositories\Eloquent\Configurações\ConfiguraçõesRepository;
+use App\Http\Requests\ConfiguracoesRequest;
+use App\Repositories\Eloquent\Configurações\ConfiguracoesRepository;
 
-class ConfiguraçõesController extends Controller
+class ConfigurationsController extends Controller
 {
     use FileTrait, LogTrait;
 
     public $title, $repository, $table;
 
-    public function __construct(ConfiguraçõesRepository $repository)
+    public function __construct(ConfiguracoesRepository $repository)
     {
         $this->title = 'Configurações';
         $this->repository = $repository;
-        $this->table = new Configurações();
+        $this->table = new Configuracoes();
     }
 
     public function index()
@@ -31,7 +29,7 @@ class ConfiguraçõesController extends Controller
         return view('cms.configuracoes.index', ['title' => $this->title, 'config' => $this->table->with('destaque')->get()]);
     }
 
-    public function update(ConfiguraçõesRequest $request)
+    public function update(ConfiguracoesRequest $request)
     {
         try {
             foreach ($request->all() as $key => $value) {
