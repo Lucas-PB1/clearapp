@@ -53,17 +53,18 @@ class CrudsController extends Controller
             $table_name = Str::plural($slug);
             $nameWithoutSpace = str_replace(' ', '', $name);
             $nameWithoutSpace = str_replace('-', '', $nameWithoutSpace);
-
+            
             $path = "Eloquent/" . $nameWithoutSpace;
             $explodedPath = explode('/', $path);
             $collectPath = collect($explodedPath);
             $repoName = $collectPath->last() . "Repository";
             $repoName = str_replace(' ', '', $repoName);
-
+            
             // Model
             $pathToModel = app_path() . "/Models/CMS";
             $this->verifyDIR($pathToModel);
             $this->makeModel("$pathToModel/$nameWithoutSpace.php", $name, $request->generator);
+            dd($request->all());
 
             // Interface
             $pathToContract = app_path() . "/Repositories/Contracts";
