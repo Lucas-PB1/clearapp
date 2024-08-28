@@ -66,12 +66,12 @@ class CrudsController extends Controller
             // Interface
             $pathToContract = app_path() . "/Repositories/Contracts";
             $this->verifyDIR($pathToContract);
-            $this->makeInterface("$pathToContract/I$repoName.php", $repoName);
+            $this->makeInterface("$pathToContract/I$repoName"."Repository.php", $repoName);
 
             // Repository
             $pathToRepo = app_path() . "/Repositories/$path";
             $this->verifyDIR($pathToRepo);
-            $this->makeRepository("$pathToRepo/$repoName.php", $nameWithoutSpace);
+            $this->makeRepository("$pathToRepo/$repoName"."Repository.php", $nameWithoutSpace);
 
             // Controller
             $pathToController = app_path() . "/Http/Controllers/CMS";
