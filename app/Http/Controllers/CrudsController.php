@@ -64,7 +64,6 @@ class CrudsController extends Controller
             $pathToModel = app_path() . "/Models/CMS";
             $this->verifyDIR($pathToModel);
             $this->makeModel("$pathToModel/$nameWithoutSpace.php", $name, $request->generator);
-            dd($request->all());
 
             // Interface
             $pathToContract = app_path() . "/Repositories/Contracts";
@@ -82,15 +81,13 @@ class CrudsController extends Controller
             $this->makeController("$pathToController/$nameWithoutSpace" . "Controller.php", $name, $request->generator, $nameWithoutSpace);
 
             // Migration
-            $pathToMigration = database_path() . "/migrations";
-            $migration_name = $this->makeMigrationName($table_name);
-            $this->makeMigration("$pathToMigration/$migration_name", $table_name, $request->generator, $name);
+            $this->makeMigration($table_name, $request->generator, $name);
 
-            // Request
+            // // Request
             $pathToRequest = app_path() . "/Http/Requests";
             $this->makeRequest("$pathToRequest/$nameWithoutSpace" . 'Request.php', $name, $request->generator);
 
-            // Adicionando a routes
+            // // Adicionando a routes
             $pathToRoute = "/routes/web.php";
             $this->addRoute("$pathToRoute", $name, $nameWithoutSpace);
 

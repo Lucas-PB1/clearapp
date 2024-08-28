@@ -12,12 +12,6 @@
         </label>
 
         <div class="d-flex mt-2">
-            {{-- <div class="input-group-prepend">
-                <div class="input-group-text icon-input">
-                    <i class="@if (isset($dados)) {{ $dados }} @else fa fa-asterisk @endif"></i>
-                </div>
-            </div> --}}
-
             <select id="{{ $id }}" name="{{ $id }}"
                 class="form-select js-select2 @error($id) is-invalid @enderror">
                 <option>Selecione um ícone</option>

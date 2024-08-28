@@ -20,9 +20,9 @@ document.querySelector('#generator-button').addEventListener('click', (event) =>
 
     let type = [
         { text: 'Selecione o tipo de campo', value: '0' },
-        { text: 'Campo livre', value: 'text' }, { text: 'Texto', value: 'text' },
-        { text: 'Sim ou Não', value: 'boolean' }, { text: 'Seleção', value: 'select' },
-        { text: 'Número', value: 'integer' }, { text: 'Data', value: 'date' }
+        { text: 'Texto', value: 'text' }, { text: 'Sim ou Não', value: 'boolean' }, 
+        { text: 'Seleção', value: 'select' }, { text: 'Número', value: 'integer' }, 
+        { text: 'Data', value: 'date' }, { text: 'Icon', value: 'icon' }
     ];
 
     type.map(element => {

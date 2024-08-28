@@ -63,24 +63,46 @@ trait MakeTrait
         $this->createFileOrBreak($path, $context, 'Controller');
     }
 
-    protected function makeMigration($path, $name, $dados, $normal_name)
+    protected function makeMigration($name, $dados, $normal_name)
     {
-        $file = $this->getFile(app_path() . "/Http/Generator/Cruds/2000_00_00_000000_create_template_table.txt");
-        $context = str_replace('<name>', $name, $file);
+        $pathToMigration = database_path() . "/migrations";
+        $migration_name = $this->makeMigrationName($name);
+        $path = "$pathToMigration/$migration_name";
 
+        $file = $this->getFile(app_path() . "/Http/Generator/Cruds/2000_00_00_000000_create_template_table.txt");
+
+        // Substitui o placeholder <name> no template pelo nome real
+        $context = str_replace('<name>', $name, $file);
+        
+        // Inicializa a variável para armazenar as definições de colunas
         $info = "\n";
+        
+        // Itera sobre cada dado de campo e constrói a definição de coluna
         foreach ($dados as $value) {
+            // Determina se o campo é opcional
             $mandatory = $value['required'] == 'optional' ? "->nullable()" : '';
+        
+            // Gera um slug para o nome da coluna
             $slug = slug_fix($value['title']);
-            if ($value['type'] == 'select') $value['type'] = 'integer';
-            $info = $info . '            $table->' . $value['type'] . "('" . $slug . "')$mandatory;\n";
+            
+            // Ajusta o tipo do campo se for do tipo select
+            if ($value['type'] == 'select' || $value['type'] == 'icon') 
+                $value['type'] = 'text';
+        
+            // Constrói a definição da coluna e adiciona à variável $info
+            $info .= '            $table->' . $value['type'] . "('" . $slug . "')$mandatory;\n";
+        
+            // Interrompe a execução e exibe o conteúdo de $info para debug
         }
 
+        // Substitui o placeholder <fields> no template pelas definições de colunas
         $context = str_replace('<fields>', $info, $context);
-
+        
+        // Constrói a instrução de inserção no banco de dados
         $insert = "DB::table('cruds')->insert(['titulo' => '$normal_name']);";
         $context = str_replace('<insert>', $insert, $context);
-
+        
+        // Cria o arquivo ou interrompe a execução se houver algum erro
         $this->createFileOrBreak($path, $context, 'Migration');
     }
 
@@ -143,33 +165,51 @@ trait MakeTrait
         $file = $this->getFile(app_path() . "/Http/Generator/Views/form.blade.php");
         $index_view = str_replace('<nome-do-crud>', "$name", $file);
 
-        $fields = '';
-        foreach ($valores as $value) {
-            $tipo = $value['type'];
+        $fields = ''; // Inicialização da variável que armazenará todos os campos gerados
 
-            if ($tipo == 'text') $tipo = 'text';
-            if ($tipo == 'integer') $tipo = 'number';
-
+        foreach ($valores as $value) { // Loop através de cada item em $valores
+            $tipo = $value['type']; // Captura o tipo de dado do campo atual
+        
+            // Conversão de tipos de campo para o componente de entrada
+            if ($tipo == 'integer') $tipo = 'number'; // Convertendo 'integer' para 'number' para ser usado como input de número
+        
+            // Geração do slug a partir do título
             $slug = slug_fix($value['title']);
-
+        
+            // Construção de atributos HTML com base nos dados do campo
             $id = 'id="' . $slug . '"';
             $titulo = 'titulo="' . $value['title'] . '"';
             $size = 'size="' . $value['size'] . '"';
             $dados = 'dados="{{ isset($data) ? $data->{' . "'$slug'" . '} : null }}"';
-
+        
+            // Inicialização da variável $input para o campo gerado
+            $input = '';
+        
+            // Verifica o tipo e gera o componente correspondente
             if ($tipo == 'text' ||  $tipo == 'number') {
+                // Para campos de texto e número
                 $input = "<x-generator.input $id $titulo $size tipo='$tipo' $dados />";
             } elseif ($tipo == 'select') {
-                $input = "<x-generator.select $id $titulo $size >";
+                // Para campos de seleção
+                $input = "<x-generator.select $id $titulo $size>";
+                $input .= "\n       <option selected>Selecione</option>";
                 foreach ($value['options'] as $item) {
                     $input .= "\n       <option value='$item'>$item</option>";
                 }
                 $input .= "\n    </x-generator.select>";
             } elseif ($tipo == 'boolean') {
-                $input = "<x-generator.input $id $titulo $size tipo='checkbox' $dados />";
+                // Para campos booleanos (checkbox)
+                $input = "<x-generator.input $id $titulo $size tipo='checkbox' $dados value='1'/>";
+            } elseif ($tipo == 'date') {
+                // Para campos de data
+                $input = "<x-generator.input $id $titulo $size tipo='date' $dados />";
+            } elseif ($tipo == 'icon') {
+                // Para campos de ícone, assumindo um campo de entrada especial para ícones
+                $input = "<x-generator.input-icon $id $titulo $size $dados />";
             }
-
-            $fields = $fields . "\n    " . $input;
+        
+            // Adiciona o campo gerado ao conjunto de campos ($fields)
+            $fields .= "\n    " . $input;
         }
 
         $index_view = str_replace('<include-campos>', "$fields", $index_view);

@@ -8,8 +8,8 @@
         <button id="generator-button" class="btn btn-primary mt-2">Adicionar Input</button>
 
         <div class="row">
-            <x-generator.input id="galeria" tipo="checkbox" size="6" titulo="Galeria?" mandatory="true"/>
-            <x-generator.input id="imagem-destaque" tipo="checkbox" size="6" titulo="Imagem de destaque?" mandatory="true"/>
+            <x-generator.input id="galeria" tipo="checkbox" size="6" titulo="Galeria?"/>
+            <x-generator.input id="imagem-destaque" tipo="checkbox" size="6" titulo="Imagem de destaque?"/>
         </div>
 
         <div class="mt-2">

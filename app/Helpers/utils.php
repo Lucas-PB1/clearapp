@@ -20,38 +20,45 @@ if (!function_exists('saudacao')) {
 
 function slug_fix($name)
 {
+    // Remove caracteres especiais usando a função clean_slug
     $name = clean_slug($name);
 
-    $name = str_replace(' ', '-', $name);
+    // Substitui espaços por underscores
+    $name = str_replace(' ', '_', $name);
+    
+    // Remove múltiplos hífens e os substitui por um único hífen
     $name = preg_replace('/-+/', '-', $name);
+    
+    // Converte toda a string para minúsculas
     return strtolower($name);
 }
 
 function clean_slug($string)
 {
+    // Substituição de caracteres acentuados por seus equivalentes não acentuados
     $nova_string = preg_replace(
         array(
-            "/(á|à|ã|â|ä)/",
-            "/(Á|À|Ã|Â|Ä)/",
-            "/(é|è|ê|ë)/",
-            "/(É|È|Ê|Ë)/",
-            "/(í|ì|î|ï)/",
-            "/(Í|Ì|Î|Ï)/",
-            "/(ó|ò|õ|ô|ö)/",
-            "/(Ó|Ò|Õ|Ô|Ö)/",
-            "/(ú|ù|û|ü)/",
-            "/(Ú|Ù|Û|Ü)/",
-            "/(ñ)/",
-            "/(Ñ)/",
-            "/(ç)/",
-            "/(Ç)/",
-            "/[^A-Za-z0-9. ]/"
+            "/(á|à|ã|â|ä)/",  // Substitui 'á', 'à', 'ã', 'â', 'ä' por 'a'
+            "/(Á|À|Ã|Â|Ä)/",  // Substitui 'Á', 'À', 'Ã', 'Â', 'Ä' por 'A'
+            "/(é|è|ê|ë)/",    // Substitui 'é', 'è', 'ê', 'ë' por 'e'
+            "/(É|È|Ê|Ë)/",    // Substitui 'É', 'È', 'Ê', 'Ë' por 'E'
+            "/(í|ì|î|ï)/",    // Substitui 'í', 'ì', 'î', 'ï' por 'i'
+            "/(Í|Ì|Î|Ï)/",    // Substitui 'Í', 'Ì', 'Î', 'Ï' por 'I'
+            "/(ó|ò|õ|ô|ö)/",  // Substitui 'ó', 'ò', 'õ', 'ô', 'ö' por 'o'
+            "/(Ó|Ò|Õ|Ô|Ö)/",  // Substitui 'Ó', 'Ò', 'Õ', 'Ô', 'Ö' por 'O'
+            "/(ú|ù|û|ü)/",    // Substitui 'ú', 'ù', 'û', 'ü' por 'u'
+            "/(Ú|Ù|Û|Ü)/",    // Substitui 'Ú', 'Ù', 'Û', 'Ü' por 'U'
+            "/(ñ)/",          // Substitui 'ñ' por 'n'
+            "/(Ñ)/",          // Substitui 'Ñ' por 'N'
+            "/(ç)/",          // Substitui 'ç' por 'c'
+            "/(Ç)/",          // Substitui 'Ç' por 'C'
+            "/[^A-Za-z0-9. ]/" // Remove todos os caracteres que não são letras, números, pontos ou espaços
         ),
-        explode(" ", "a A e E i I o O u U n N c C"),
-        $string
+        explode(" ", "a A e E i I o O u U n N c C"), // Mapeamento de substituição
+        $string // String de entrada
     );
 
-    return $nova_string;
+    return $nova_string; // Retorna a string "limpa"
 }
 
 
