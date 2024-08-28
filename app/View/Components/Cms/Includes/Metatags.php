@@ -15,7 +15,7 @@ class Metatags extends Component
      */
     public function __construct()
     {
-        $this->siteName = Configuracoes::where('slug', 'nome-do-site')->first()->valor;
+        $this->siteName = Configuracoes::where('slug', 'nome_do_site')->first()->valor;
         $this->logo = Configuracoes::where('slug', 'logo')->first()->destaque->path;
     }
 

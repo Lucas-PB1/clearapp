@@ -44,7 +44,7 @@ Route::middleware('auth')->prefix('cms')->group(function () {
 
     Route::middleware(['can:read_cruds'])->resource('/cruds', CrudsController::class);
     Route::middleware(['can:read_logs'])->resource('/logs', LogsController::class);
-    Route::middleware(['can:read_redes-sociais'])->resource('/redes-sociais', RedesSociaisController::class);
+    Route::middleware(['can:read_redes_sociais'])->resource('/redes-sociais', RedesSociaisController::class);
     Route::middleware(['can:read_cargos'])->resource('/cargos', RolesController::class);
     Route::middleware(['can:read_usuarios'])->resource('/usuarios', UserController::class);
 

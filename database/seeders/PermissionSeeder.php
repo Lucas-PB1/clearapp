@@ -35,10 +35,7 @@ class PermissionSeeder extends Seeder
 
         $this->assignPermissionsToRole('super-admin', Permission::all());
         $this->assignPermissionsToRole('admin', [
-            'ebooks',
-            'alunos',
-            'mentorias',
-            'redes-sociais',
+            'redes_sociais',
         ]);
     }
 }

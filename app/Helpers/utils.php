@@ -18,16 +18,16 @@ if (!function_exists('saudacao')) {
 }
 
 
-function slug_fix($name)
+function slug_fix($name, $alt = "_")
 {
     // Remove caracteres especiais usando a função clean_slug
     $name = clean_slug($name);
 
     // Substitui espaços por underscores
-    $name = str_replace(' ', '_', $name);
+    $name = str_replace(' ', $alt, $name);
     
     // Remove múltiplos hífens e os substitui por um único hífen
-    $name = preg_replace('/-+/', '-', $name);
+    $name = preg_replace('/-+/', $alt, $name);
     
     // Converte toda a string para minúsculas
     return strtolower($name);

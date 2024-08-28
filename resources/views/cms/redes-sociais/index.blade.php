@@ -1,7 +1,7 @@
 <x-cms-layout>
     <x-cms.partials.forms.card>
         <x-cms.partials.forms.title titulo="Lista de {{ $title }}" classes="col-md-6">
-            @can('create_redes-sociais')
+            @can('create_redes_sociais')
                 <a href="{{ route('redes-sociais.create') }}" class="col-md-6 text-end">
                     <button class="btn btn-primary">Cadastrar {{ $title }}</button>
                 </a>

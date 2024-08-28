@@ -21,7 +21,7 @@ class Controller extends BaseController
 
     public function index()
     {
-        return view('cms.' . slug_fix($this->title) . '.index', ['title' => $this->title]);
+        return view('cms.' . slug_fix($this->title, '-') . '.index', ['title' => $this->title]);
     }
 
     public function indexAPI()
@@ -45,13 +45,13 @@ class Controller extends BaseController
 
     public function create()
     {
-        return view('cms.' . slug_fix($this->title) . '.create', ['title' => $this->title]);
+        return view('cms.' . slug_fix($this->title, '-') . '.create', ['title' => $this->title]);
     }
 
     
     public function edit($id)
     {
-        return view('cms.' . slug_fix($this->title) . '.create', [
+        return view('cms.' . slug_fix($this->title, '-') . '.create', [
             'title' => $this->title,
             'data' => $this->table->where('id', $id)->first()
         ]);
@@ -63,7 +63,7 @@ class Controller extends BaseController
             $resultado = $this->repository->upInsert($request);
             if ($resultado) {
                 return redirect()
-                    ->route(slug_fix($this->title) . '.index', [$resultado])
+                    ->route(slug_fix($this->title, '-') . '.index', [$resultado])
                     ->with('success', 'Registro cadastrado com sucesso');
             }
         } catch (Exception $exception) {
@@ -77,7 +77,7 @@ class Controller extends BaseController
         try {
             if ($this->repository->upInsert($request, $id)) {
                 return redirect()
-                    ->route(slug_fix($this->title) . '.index', [$id])
+                    ->route(slug_fix($this->title, '-') . '.index', [$id])
                     ->with('success', 'Registro atualizado com sucesso');
             }
         } catch (Exception $exception) {

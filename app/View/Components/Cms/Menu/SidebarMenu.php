@@ -16,7 +16,7 @@ class SidebarMenu extends Component
      */
     public function __construct()
     {
-        $this->siteName = Configuracoes::where('slug', 'nome-do-site')->first()->valor;
+        $this->siteName = Configuracoes::where('slug', 'nome_do_site')->first()->valor;
 
         $this->menus = [
             ['nome' => 'Usuários', 'link' => route('usuarios.index')],
