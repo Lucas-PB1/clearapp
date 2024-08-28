@@ -21,8 +21,6 @@ trait MakeTrait
 
     protected function makeModel($path, $name, $dados)
     {
-        $nameWithoutSpace = str_replace(' ', '', $name);
-
         $info = "\n";
         foreach ($dados as $value) {
             $slug = slug_fix($value['title']);
@@ -30,7 +28,7 @@ trait MakeTrait
         }
 
         $file = $this->getFile(app_path() . "/Http/Generator/Cruds/Template.txt");
-        $context = str_replace('<name>', $nameWithoutSpace, $file);
+        $context = str_replace('<name>', $name, $file);
         $context = str_replace('<name_min>', Str::plural(slug_fix($name)), $context);
         $context = str_replace('<fields>', $info, $context);
 
@@ -128,7 +126,7 @@ trait MakeTrait
         $this->createFileOrBreak($path, $context, 'Request');
     }
 
-    public function addRoute($path, $name, $nameWithoutSpace)
+    public function addRoute($name, $nameWithoutSpace)
     {
         $file_path = base_path('routes/web.php');
         $file_contents = file_get_contents($file_path);

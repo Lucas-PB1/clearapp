@@ -49,22 +49,20 @@ class CrudsController extends Controller
     {
         try {
             $name = ucfirst($request->titulo);
-            $slug = slug_fix($request->titulo);
-            $table_name = Str::plural($slug);
-            $nameWithoutSpace = str_replace(' ', '', $name);
-            $nameWithoutSpace = str_replace('-', '', $nameWithoutSpace);
-            
+            $nameWithoutSpace = clean_slug($name);
+            $nameWithoutSpace = str_replace(' ', '', $nameWithoutSpace);
+        
             $path = "Eloquent/" . $nameWithoutSpace;
             $explodedPath = explode('/', $path);
             $collectPath = collect($explodedPath);
-            $repoName = $collectPath->last() . "Repository";
+            $repoName = $collectPath->last();
             $repoName = str_replace(' ', '', $repoName);
             
             // Model
             $pathToModel = app_path() . "/Models/CMS";
             $this->verifyDIR($pathToModel);
-            $this->makeModel("$pathToModel/$nameWithoutSpace.php", $name, $request->generator);
-
+            $this->makeModel("$pathToModel/$nameWithoutSpace.php", $nameWithoutSpace, $request->generator);
+            
             // Interface
             $pathToContract = app_path() . "/Repositories/Contracts";
             $this->verifyDIR($pathToContract);
@@ -73,7 +71,7 @@ class CrudsController extends Controller
             // Repository
             $pathToRepo = app_path() . "/Repositories/$path";
             $this->verifyDIR($pathToRepo);
-            $this->makeRepository("$pathToRepo/$repoName.php", $name);
+            $this->makeRepository("$pathToRepo/$repoName.php", $nameWithoutSpace);
 
             // Controller
             $pathToController = app_path() . "/Http/Controllers/CMS";
@@ -81,15 +79,16 @@ class CrudsController extends Controller
             $this->makeController("$pathToController/$nameWithoutSpace" . "Controller.php", $name, $request->generator, $nameWithoutSpace);
 
             // Migration
+            $slug = slug_fix($request->titulo);
+            $table_name = Str::plural($slug);
             $this->makeMigration($table_name, $request->generator, $name);
 
             // // Request
             $pathToRequest = app_path() . "/Http/Requests";
-            $this->makeRequest("$pathToRequest/$nameWithoutSpace" . 'Request.php', $name, $request->generator);
+            $this->makeRequest("$pathToRequest/$nameWithoutSpace" . 'Request.php', $nameWithoutSpace, $request->generator);
 
             // // Adicionando a routes
-            $pathToRoute = "/routes/web.php";
-            $this->addRoute("$pathToRoute", $name, $nameWithoutSpace);
+            $this->addRoute($name, $nameWithoutSpace);
 
             // Adicionando a routes
             $pathToView = resource_path() . "/views/cms/$slug";
