@@ -16,3 +16,6 @@ window.IMask = IMask;
 
 import Swal from 'sweetalert2';
 window.Swal = Swal;
+
+import * as bootstrap from 'bootstrap';
+window.Bootstrap = bootstrap;
