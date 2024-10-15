@@ -22,18 +22,42 @@ trait MakeTrait
     protected function makeModel($path, $name, $dados)
     {
         $info = "\n";
-        foreach ($dados as $value) {
-            $slug = slug_fix($value['title']);
-            $info = $info . "        '" . $slug . "'" . ",\n";
+    
+        // Verifica se há uma imagem em destaque e cria a relação
+        $relation = false;
+        if ($dados->{'imagem-destaque'} == 1) {
+            $info .= "        'imagem-destaque',\n";
+            $relation = "public function destaque()\n" . 
+                        "    {\n" . 
+                        "       return \$this->hasOne(Archives::class, 'reference_id', 'id')" . 
+                        "        ->where('table', '$dados->titulo')" . 
+                        "        ->where('highlight', true);\n" . 
+                        "    }\n";
         }
-
+    
+        // Gera os campos a partir do gerador de dados
+        foreach ($dados->generator as $value) {
+            $slug = slug_fix($value['title']);
+            $info .= "        '{$slug}',\n";
+        }
+    
+        // Carrega o template e substitui os placeholders
         $file = $this->getFile(app_path() . "/Http/Generator/Cruds/Template.txt");
         $context = str_replace('<name>', $name, $file);
         $context = str_replace('<name_min>', Str::plural(slug_fix($name)), $context);
         $context = str_replace('<fields>', $info, $context);
-
+        
+        // Adiciona a relação, se existir
+        if ($relation) {
+            $context = str_replace('<relation>', $relation, $context);
+        }else{
+            $context = str_replace('<relation>', '', $context);
+        }
+            
+        // Cria o arquivo ou interrompe em caso de falha
         $this->createFileOrBreak($path, $context, 'Model');
     }
+    
 
     protected function makeRepository($path, $name)
     {
@@ -74,9 +98,12 @@ trait MakeTrait
         
         // Inicializa a variável para armazenar as definições de colunas
         $info = "\n";
+
+        if($dados->{'imagem-destaque'} == 1)
+            $info = '            $table->' ."text('imagem-principal')->nullable();\n";
         
         // Itera sobre cada dado de campo e constrói a definição de coluna
-        foreach ($dados as $value) {
+        foreach ($dados->generator as $value) {
             // Determina se o campo é opcional
             $mandatory = $value['required'] == 'optional' ? "->nullable()" : '';
         
@@ -147,25 +174,32 @@ trait MakeTrait
         file_put_contents($file_path, $file_contents);
     }
 
-    public function makeViews($path, $name, $valores)
+    public function makeViews($path, $name, $request)
     {
-        // CREATE
+        // // CREATE
         $file = $this->getFile(app_path() . "/Http/Generator/Views/create.blade.php");
         $edit_view = str_replace('<include-form>', "@include('cms.$name.form')", $file);
         $this->createFileOrBreak("$path" . "create.blade.php", $edit_view, 'View Create');
 
-        // INDEX
+        // // INDEX
         $file = $this->getFile(app_path() . "/Http/Generator/Views/index.blade.php");
         $index_view = str_replace('<nome-do-crud>', "$name", $file);
         $this->createFileOrBreak("$path" . "index.blade.php", $index_view, 'View Index');
 
-        // FORM
+        // // FORM
         $file = $this->getFile(app_path() . "/Http/Generator/Views/form.blade.php");
         $index_view = str_replace('<nome-do-crud>', "$name", $file);
 
         $fields = ''; // Inicialização da variável que armazenará todos os campos gerados
 
-        foreach ($valores as $value) { // Loop através de cada item em $valores
+        if($request->{'imagem-destaque'} == 1){
+            $divInit = "    <div class='row'>\n";
+            $inputMid = '       <x-generator.input id="imagem-principal" titulo="Imagem Principal" size="6" tipo="file" :dados="isset($data) ? $data->destaque : null" />';
+            $divEnd = " \n    </div>\n";
+            $fields .= "\n" . $divInit . $inputMid . $divEnd;
+        }
+
+        foreach ($request->generator as $value) { // Loop através de cada item em $valores
             $tipo = $value['type']; // Captura o tipo de dado do campo atual
         
             // Conversão de tipos de campo para o componente de entrada

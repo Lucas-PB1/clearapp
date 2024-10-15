@@ -61,7 +61,7 @@ class CrudsController extends Controller
             // Model
             $pathToModel = app_path() . "/Models/CMS";
             $this->verifyDIR($pathToModel);
-            $this->makeModel("$pathToModel/$nameWithoutSpace.php", $nameWithoutSpace, $request->generator);
+            $this->makeModel("$pathToModel/$nameWithoutSpace.php", $nameWithoutSpace, $request);
             
             // Interface
             $pathToContract = app_path() . "/Repositories/Contracts";
@@ -78,22 +78,22 @@ class CrudsController extends Controller
             $this->verifyDIR($pathToController);
             $this->makeController("$pathToController/$nameWithoutSpace" . "Controller.php", $name, $request->generator, $nameWithoutSpace);
 
-            // Migration
+            // // Migration
             $slug = slug_fix($request->titulo);
             $table_name = Str::plural($slug);
-            $this->makeMigration($table_name, $request->generator, $name);
+            $this->makeMigration($table_name, $request, $name);
 
-            // // Request
+            // Request
             $pathToRequest = app_path() . "/Http/Requests";
             $this->makeRequest("$pathToRequest/$nameWithoutSpace" . 'Request.php', $nameWithoutSpace, $request->generator);
 
             // // Adicionando a routes
             $this->addRoute($name, $nameWithoutSpace);
 
-            // Adicionando a routes
+            // Adicionando as views
             $pathToView = resource_path() . "/views/cms/$slug";
             $this->verifyDIR($pathToView);
-            $this->makeViews("$pathToView/", $slug, $request->generator);
+            $this->makeViews("$pathToView/", $slug, $request);
 
             Artisan::call('migrate');
         } catch (Exception $exception) {
